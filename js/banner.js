@@ -23,16 +23,17 @@ function buildSlides() {
   const track = getTrack();
   if (!track) return;
 
-  track.style.width = `${SLIDES.length * 100}%`;
+  // Clear any forced width to rely on flexbox
+  track.style.width = '100%';
+  track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
 
   track.innerHTML = SLIDES.map((s, i) => `
-    <div class="banner-slide" style="width:${100 / SLIDES.length}%; height:100%; padding:0; display:block;">
-      <a href="${s.href}" style="display:block; width:100%; height:100%;">
-        <img src="${s.image}" alt="Promo Banner" style="width:100%; height:100%; display:block; object-fit:cover; object-position:center;" />
+    <div class="banner-slide" style="flex: 0 0 100%; min-width: 100%; position: relative;">
+      <a href="${s.href}" class="block w-full">
+        <img src="${s.image}" alt="Promo Banner" class="w-full h-auto block" />
       </a>
     </div>
   `).join('');
-
 
   buildDots();
 }
@@ -60,7 +61,7 @@ export function goTo(idx) {
   current = (idx + SLIDES.length) % SLIDES.length;
   const track = getTrack();
   if (track) {
-    track.style.transform = `translateX(-${current * (100 / SLIDES.length)}%)`;
+    track.style.transform = `translateX(-${current * 100}%)`;
   }
   updateDots();
 }
