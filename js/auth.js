@@ -44,6 +44,7 @@ export function updateNavAuthUI() {
   const mLoginBtn     = document.getElementById('mobile-login-btn');
   const mLogoutBtn    = document.getElementById('mobile-logout-btn');
   const mGreeting     = document.getElementById('mobile-user-greeting');
+  const balanceBtns   = document.querySelectorAll('.balance-btn');
 
   if (session) {
     loginBtn  && (loginBtn.style.display  = 'none');
@@ -52,6 +53,7 @@ export function updateNavAuthUI() {
     mLoginBtn  && (mLoginBtn.style.display  = 'none');
     mLogoutBtn && (mLogoutBtn.style.display = 'inline-flex');
     mGreeting  && (mGreeting.textContent = `Hi, ${session.name}`, mGreeting.classList.remove('hidden'));
+    balanceBtns.forEach(btn => btn.style.display = '');
   } else {
     loginBtn  && (loginBtn.style.display  = 'inline-flex');
     logoutBtn && (logoutBtn.style.display = 'none');
@@ -59,6 +61,7 @@ export function updateNavAuthUI() {
     mLoginBtn  && (mLoginBtn.style.display  = 'inline-flex');
     mLogoutBtn && (mLogoutBtn.style.display = 'none');
     mGreeting  && (mGreeting.classList.add('hidden'));
+    balanceBtns.forEach(btn => btn.style.display = 'none');
   }
 }
 
