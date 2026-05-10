@@ -4,39 +4,35 @@
 
 const SLIDES = [
   {
-    style:    'background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%)',
+    image:    './promo_img/promo1.jpg',
     badge:    'New Arrivals',
     title:    'Shop Smart,\nLive Better',
     subtitle: 'Discover thousands of products at unbeatable prices. Quality you can trust.',
     cta:      'Shop Now',
-    emoji:    '🛍️',
     href:     '#products',
   },
   {
-    style:    'background: linear-gradient(135deg, #f97316 0%, #dc2626 100%)',
+    image:    './promo_img/promo2.jpg',
     badge:    'Hot Deals',
     title:    'Exclusive\nOffers Today',
     subtitle: 'Limited-time discounts on top brands. Don\'t miss out on these incredible deals!',
     cta:      'Grab Deals',
-    emoji:    '🔥',
     href:     '#products',
   },
   {
-    style:    'background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%)',
+    image:    './promo_img/promo3.jpg',
     badge:    'Electronics',
     title:    'Tech That\nInspires You',
     subtitle: 'Explore the latest gadgets, wearables, and smart devices for every lifestyle.',
     cta:      'Explore Tech',
-    emoji:    '⚡',
     href:     '#products',
   },
   {
-    style:    'background: linear-gradient(135deg, #84cc16 0%, #10b981 100%)',
+    image:    './promo_img/promo4.jpg',
     badge:    'Fashion Week',
     title:    'Style Meets\nAffordability',
     subtitle: 'Trendy clothing, jewelry, and accessories for men and women at amazing prices.',
     cta:      'Shop Fashion',
-    emoji:    '✨',
     href:     '#products',
   },
 ];
@@ -53,21 +49,22 @@ function buildSlides() {
   if (!track) return;
 
   track.innerHTML = SLIDES.map((s, i) => `
-    <div class="banner-slide" style="${s.style}; position:relative; overflow:hidden; padding: 2rem 4rem;">
-      <!-- Decorative blobs -->
-      <div style="position:absolute;top:-40px;right:-40px;width:256px;height:256px;border-radius:50%;background:rgba(255,255,255,0.1);filter:blur(40px);"></div>
-      <div style="position:absolute;bottom:-40px;left:-40px;width:192px;height:192px;border-radius:50%;background:rgba(255,255,255,0.1);filter:blur(40px);"></div>
-      <div style="position:relative;z-index:10;max-width:36rem;">
-        <span style="display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:0.75rem;font-weight:700;padding:2px 12px;border-radius:99px;margin-bottom:1rem;backdrop-filter:blur(4px);">${s.badge}</span>
-        <h2 style="font-size:clamp(1.75rem,4vw,3rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:0.75rem;">${s.title.replace('\n','<br>')}</h2>
-        <p style="color:rgba(255,255,255,0.8);font-size:clamp(0.85rem,1.5vw,1rem);margin-bottom:1.5rem;max-width:28rem;">${s.subtitle}</p>
-        <a href="${s.href}" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;padding:12px 24px;border-radius:99px;text-decoration:none;font-size:0.875rem;box-shadow:0 4px 14px rgba(0,0,0,0.15);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-          ${s.cta}
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-      </div>
-      <div style="position:absolute;right:clamp(2rem,8vw,6rem);top:50%;transform:translateY(-50%);font-size:clamp(5rem,12vw,9rem);user-select:none;opacity:0.85;animation:bounce 3s infinite;">
-        ${s.emoji}
+    <div class="banner-slide" style="background: url('${s.image}') center/cover no-repeat; position:relative; overflow:hidden; padding: 2rem 4rem;">
+      <!-- Dark overlay for text readability -->
+      <div style="position:absolute; inset:0; background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);"></div>
+      
+      <div style="position:relative;z-index:10;max-width:36rem;height:100%;display:flex;flex-direction:column;justify-content:center;">
+        <div>
+          <span style="display:inline-block;background:rgba(20,184,166,0.9);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:99px;margin-bottom:1rem;backdrop-filter:blur(4px);">${s.badge}</span>
+        </div>
+        <h2 style="font-size:clamp(1.75rem,4vw,3rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:0.75rem;text-shadow:0 2px 4px rgba(0,0,0,0.3);">${s.title.replace('\n','<br>')}</h2>
+        <p style="color:rgba(255,255,255,0.9);font-size:clamp(0.85rem,1.5vw,1rem);margin-bottom:1.5rem;max-width:28rem;text-shadow:0 1px 2px rgba(0,0,0,0.5);">${s.subtitle}</p>
+        <div>
+          <a href="${s.href}" style="display:inline-flex;align-items:center;gap:8px;background:#14b8a6;color:#fff;font-weight:700;padding:12px 24px;border-radius:99px;text-decoration:none;font-size:0.875rem;box-shadow:0 4px 14px rgba(20,184,166,0.4);transition:transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.background='#0d9488';" onmouseout="this.style.transform='scale(1)'; this.style.background='#14b8a6';">
+            ${s.cta}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
       </div>
     </div>
   `).join('');
