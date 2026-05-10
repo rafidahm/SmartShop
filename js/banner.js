@@ -3,22 +3,13 @@
  */
 
 const SLIDES = [
-  {
-    image:    './promo_img/promo1.jpg',
-    href:     '#products',
-  },
-  {
-    image:    './promo_img/promo2.jpg',
-    href:     '#products',
-  },
-  {
-    image:    './promo_img/promo3.jpg',
-    href:     '#products',
-  },
-  {
-    image:    './promo_img/promo4.jpg',
-    href:     '#products',
-  },
+  { image: './promo_img/image-resize.avif', href: '#products' },
+  { image: './promo_img/image-resize (1).avif', href: '#products' },
+  { image: './promo_img/image-resize (2).avif', href: '#products' },
+  { image: './promo_img/image-resize (3).avif', href: '#products' },
+  { image: './promo_img/image-resize (4).avif', href: '#products' },
+  { image: './promo_img/image-resize (5).avif', href: '#products' },
+  { image: './promo_img/image-resize (6).avif', href: '#products' },
 ];
 
 
@@ -33,7 +24,7 @@ function buildSlides() {
   if (!track) return;
 
   track.innerHTML = SLIDES.map((s, i) => `
-    <div class="banner-slide" style="min-width:100%; height:100%; padding:0; display:block;">
+    <div class="banner-slide" style="min-width:100%; height:100%; padding:0; display:flex; justify-content:center; align-items:center;">
       <a href="${s.href}" style="display:block; width:100%; height:100%;">
         <img src="${s.image}" alt="Promo Banner" style="width:100%; height:100%; display:block; object-fit:contain;" />
       </a>
