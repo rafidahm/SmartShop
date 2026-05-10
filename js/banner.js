@@ -23,10 +23,12 @@ function buildSlides() {
   const track = getTrack();
   if (!track) return;
 
+  track.style.width = `${SLIDES.length * 100}%`;
+
   track.innerHTML = SLIDES.map((s, i) => `
-    <div class="banner-slide" style="min-width:100%; height:100%; padding:0; display:flex; justify-content:center; align-items:center;">
+    <div class="banner-slide" style="width:${100 / SLIDES.length}%; height:100%; padding:0; display:block;">
       <a href="${s.href}" style="display:block; width:100%; height:100%;">
-        <img src="${s.image}" alt="Promo Banner" style="width:100%; height:100%; display:block; object-fit:contain;" />
+        <img src="${s.image}" alt="Promo Banner" style="width:100%; height:100%; display:block; object-fit:cover; object-position:center;" />
       </a>
     </div>
   `).join('');
@@ -40,7 +42,7 @@ function buildDots() {
   if (!dots) return;
   dots.innerHTML = SLIDES.map((_, i) => `
     <button data-idx="${i}" aria-label="Slide ${i+1}"
-      class="dot w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === 0 ? 'bg-white scale-125' : 'bg-white/40'}">
+      class="dot w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === 0 ? 'bg-white scale-125' : 'bg-white/40'} shadow-sm">
     </button>
   `).join('');
   dots.querySelectorAll('.dot').forEach(btn => {
@@ -50,14 +52,16 @@ function buildDots() {
 
 function updateDots() {
   getDots()?.querySelectorAll('.dot').forEach((btn, i) => {
-    btn.className = `dot w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === current ? 'bg-white scale-125' : 'bg-white/40'}`;
+    btn.className = `dot w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === current ? 'bg-white scale-125' : 'bg-white/40'} shadow-sm`;
   });
 }
 
 export function goTo(idx) {
   current = (idx + SLIDES.length) % SLIDES.length;
   const track = getTrack();
-  if (track) track.style.transform = `translateX(-${current * 100}%)`;
+  if (track) {
+    track.style.transform = `translateX(-${current * (100 / SLIDES.length)}%)`;
+  }
   updateDots();
 }
 
