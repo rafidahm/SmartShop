@@ -33,9 +33,9 @@ function buildSlides() {
   if (!track) return;
 
   track.innerHTML = SLIDES.map((s, i) => `
-    <div class="banner-slide" style="min-width:100%; padding:0; display:block;">
+    <div class="banner-slide" style="min-width:100%; height:100%; padding:0; display:block;">
       <a href="${s.href}" style="display:block; width:100%; height:100%;">
-        <img src="${s.image}" alt="Promo Banner" style="width:100%; height:auto; display:block; object-fit:contain;" />
+        <img src="${s.image}" alt="Promo Banner" style="width:100%; height:100%; display:block; object-fit:contain;" />
       </a>
     </div>
   `).join('');
