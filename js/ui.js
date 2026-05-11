@@ -54,22 +54,46 @@ function initBackToTop() {
 /* ── Contact form ─────────────────────────────────────── */
 function initContactForm() {
   const form = document.getElementById('contact-form');
+  const nameInp = document.getElementById('contact-name');
+  const emailInp = document.getElementById('contact-email');
+  const msgInp = document.getElementById('contact-message');
+  const errEl = document.getElementById('contact-error');
+  const sucEl = document.getElementById('contact-success');
+
   if (!form) return;
+
+  const validate = () => {
+    const name = nameInp?.value.trim();
+    const email = emailInp?.value.trim();
+    const msg = msgInp?.value.trim();
+
+    if (errEl) errEl.textContent = '';
+    
+    if (!name) return 'Name is required.';
+    if (!/\S+@\S+\.\S+/.test(email)) return 'Enter a valid email.';
+    if (!msg) return 'Message cannot be empty.';
+    
+    return null;
+  };
+
+  [nameInp, emailInp, msgInp].forEach(inp => {
+    inp?.addEventListener('input', () => {
+      if (errEl && errEl.textContent) {
+        const errorMsg = validate();
+        if (!errorMsg) errEl.textContent = '';
+      }
+    });
+  });
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const name    = document.getElementById('contact-name')?.value.trim();
-    const email   = document.getElementById('contact-email')?.value.trim();
-    const message = document.getElementById('contact-message')?.value.trim();
-    const errEl   = document.getElementById('contact-error');
-    const sucEl   = document.getElementById('contact-success');
-
-    if (errEl) errEl.textContent = '';
     if (sucEl) sucEl.classList.add('hidden');
 
-    if (!name)                       { if (errEl) errEl.textContent = 'Name is required.'; return; }
-    if (!/\S+@\S+\.\S+/.test(email)) { if (errEl) errEl.textContent = 'Enter a valid email.'; return; }
-    if (!message)                    { if (errEl) errEl.textContent = 'Message cannot be empty.'; return; }
+    const errorMsg = validate();
+    if (errorMsg) {
+      if (errEl) errEl.textContent = errorMsg;
+      return;
+    }
 
     /* Simulate submission */
     if (sucEl) sucEl.classList.remove('hidden');

@@ -99,8 +99,35 @@ export function init() {
   document.getElementById('balance-modal')?.addEventListener('click', e => {
     if (e.target === e.currentTarget) closeModal();
   });
-  document.getElementById('add-money-btn')?.addEventListener('click', handleAddMoney);
-  document.getElementById('add-amount-input')?.addEventListener('keydown', e => {
+  
+  const addBtn = document.getElementById('add-money-btn');
+  const addInp = document.getElementById('add-amount-input');
+  const errEl = document.getElementById('balance-error');
+
+  addBtn?.addEventListener('click', handleAddMoney);
+  addInp?.addEventListener('keydown', e => {
     if (e.key === 'Enter') handleAddMoney();
+  });
+
+  // Real-time validation clear
+  const validateClear = () => {
+    if (errEl && errEl.textContent) {
+      const method = document.querySelector('input[name="payment-method"]:checked');
+      const amount = parseFloat(addInp?.value?.replace(/[^0-9.]/g, ''));
+      if (method && amount > 0) {
+        errEl.textContent = '';
+      }
+    }
+  };
+
+  addInp?.addEventListener('input', validateClear);
+  document.querySelectorAll('input[name="payment-method"]').forEach(r => {
+    r.addEventListener('change', () => {
+      if (errEl && errEl.textContent === 'Please select a payment method.') {
+        errEl.textContent = '';
+      } else {
+        validateClear();
+      }
+    });
   });
 }

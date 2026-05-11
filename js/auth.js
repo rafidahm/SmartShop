@@ -127,36 +127,72 @@ export function init() {
   document.getElementById('tab-signup')?.addEventListener('click', () => switchAuthTab('signup'));
 
   /* Login form */
+  const loginEmailInp = document.getElementById('login-email');
+  const loginPassInp = document.getElementById('login-password');
+  const loginErrEl = document.getElementById('login-error');
+
+  [loginEmailInp, loginPassInp].forEach(inp => {
+    inp?.addEventListener('input', () => {
+      if (loginErrEl) loginErrEl.textContent = '';
+    });
+  });
+
   document.getElementById('login-form')?.addEventListener('submit', e => {
     e.preventDefault();
-    const email    = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value;
-    const errEl    = document.getElementById('login-error');
+    const email    = loginEmailInp.value.trim();
+    const password = loginPassInp.value;
     try {
       login(email, password);
       closeAuthModal();
       window.showToast(`Welcome back, ${getSession().name}!`, 'success');
     } catch (err) {
-      errEl.textContent = err.message;
+      if (loginErrEl) loginErrEl.textContent = err.message;
     }
   });
 
   /* Signup form */
+  const signupNameInp = document.getElementById('signup-name');
+  const signupEmailInp = document.getElementById('signup-email');
+  const signupPassInp = document.getElementById('signup-password');
+  const signupErrEl = document.getElementById('signup-error');
+
+  const validateSignup = () => {
+    const name = signupNameInp?.value.trim();
+    const email = signupEmailInp?.value.trim();
+    const password = signupPassInp?.value;
+
+    if (!name) return 'Name is required.';
+    if (!/\S+@\S+\.\S+/.test(email)) return 'Enter a valid email.';
+    if (password.length < 6) return 'Password must be at least 6 characters.';
+    return null;
+  };
+
+  [signupNameInp, signupEmailInp, signupPassInp].forEach(inp => {
+    inp?.addEventListener('input', () => {
+      if (signupErrEl && signupErrEl.textContent) {
+        // Clear error if the specific error condition is met, or just clear it on type.
+        // It's usually better UX to just clear it as they type or validate in real-time.
+        const errorMsg = validateSignup();
+        if (!errorMsg) signupErrEl.textContent = '';
+      }
+    });
+  });
+
   document.getElementById('signup-form')?.addEventListener('submit', e => {
     e.preventDefault();
-    const name     = document.getElementById('signup-name').value.trim();
-    const email    = document.getElementById('signup-email').value.trim();
-    const password = document.getElementById('signup-password').value;
-    const errEl    = document.getElementById('signup-error');
-    if (!name)                              { errEl.textContent = 'Name is required.'; return; }
-    if (!/\S+@\S+\.\S+/.test(email))       { errEl.textContent = 'Enter a valid email.'; return; }
-    if (password.length < 6)               { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+    
+    const errorMsg = validateSignup();
+    if (errorMsg) {
+      if (signupErrEl) signupErrEl.textContent = errorMsg;
+      return;
+    }
+
     try {
-      signup(name, email, password);
+      signup(signupNameInp.value.trim(), signupEmailInp.value.trim(), signupPassInp.value);
       closeAuthModal();
-      window.showToast(`Account created! Welcome, ${name}!`, 'success');
+      window.showToast(`Account created! Welcome, ${signupNameInp.value.trim()}!`, 'success');
     } catch (err) {
-      errEl.textContent = err.message;
+      if (signupErrEl) signupErrEl.textContent = err.message;
     }
   });
 }
