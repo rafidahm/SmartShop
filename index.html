@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth font-sans">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -20,27 +20,22 @@
             secondary: { DEFAULT:'#84CC16' },
             accent:    { DEFAULT:'#F97316', 500:'#f97316', 600:'#ea580c' }
           }, 
-          fontFamily: { sans: ['Inter','sans-serif'] } 
+          fontFamily: { sans: ['Inter','sans-serif'] },
+          backgroundImage: {
+            'skeleton': 'linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%)'
+          },
+          keyframes: {
+            shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+            fadeInDown: { 'from': { opacity: '0', transform: 'translateY(-10px)' }, 'to': { opacity: '1', transform: 'translateY(0)' } }
+          },
+          animation: {
+            shimmer: 'shimmer 1.5s infinite',
+            fadeInDown: 'fadeInDown 0.25s ease'
+          }
         } 
       }
     };
   </script>
-  <style>
-    * { font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; }
-    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-    .skeleton { background: linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%); background-size:200% 100%; animation: shimmer 1.5s infinite; }
-    #banner-track { display:flex; height:100%; transition: transform 0.6s cubic-bezier(.4,0,.2,1); will-change:transform; }
-    #banner-wrapper { position:relative; overflow:hidden; }
-    .banner-slide  { min-width:100%; height:100%; display:flex; align-items:center; flex-shrink:0; }
-    @keyframes bounce { 0%,100%{transform:translateY(-50%) translateY(-8px)} 50%{transform:translateY(-50%) translateY(8px)} }
-    #reviews-track { display:flex; transition: transform 0.5s cubic-bezier(.4,0,.2,1); will-change:transform; }
-    .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:#f1f5f9; } ::-webkit-scrollbar-thumb { background:#14b8a6; border-radius:99px; }
-    #cart-sidebar { transition: transform 0.35s cubic-bezier(.4,0,.2,1); }
-    @keyframes fadeInDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
-    .modal-box { animation: fadeInDown 0.25s ease; }
-  </style>
 </head>
 <body class="bg-slate-50 text-gray-800 antialiased">
 
@@ -114,7 +109,7 @@
 <section id="home" class="pt-16 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-4">
     <div id="banner-wrapper" class="relative overflow-hidden w-full bg-slate-50 rounded-2xl shadow-sm border border-gray-100">
-      <div id="banner-track" class="flex h-full w-full transition-transform duration-500 ease-out"></div>
+      <div id="banner-track" class="flex h-full w-full transition-transform duration-[600ms] ease-[cubic-bezier(.4,0,.2,1)] will-change-transform"></div>
       <!-- Arrows -->
       <button id="banner-prev" class="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-white text-primary rounded-full flex items-center justify-center transition-all z-10 shadow-md">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
@@ -166,7 +161,7 @@
     </div>
     <div class="relative">
       <div class="overflow-hidden">
-        <div id="reviews-track" class="flex gap-0"></div>
+        <div id="reviews-track" class="flex gap-0 transition-transform duration-500 ease-[cubic-bezier(.4,0,.2,1)] will-change-transform"></div>
       </div>
       <button id="reviews-prev" class="absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg hover:shadow-xl border border-gray-100 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all z-10">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -312,7 +307,7 @@
 
 <!-- ═══════════════ CART SIDEBAR ═══════════════ -->
 <div id="cart-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40"></div>
-<aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-50 shadow-2xl flex flex-col translate-x-full">
+<aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-50 shadow-2xl flex flex-col translate-x-full transition-transform duration-[350ms] ease-[cubic-bezier(.4,0,.2,1)]">
   <!-- Header -->
   <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-primary to-teal-700">
     <h3 class="font-bold text-white flex items-center gap-2">
@@ -358,7 +353,7 @@
 
 <!-- ═══════════════ AUTH MODAL ═══════════════ -->
 <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
-  <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+  <div class="modal-box animate-fadeInDown bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
     <!-- Header -->
     <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
       <div class="flex gap-0">
@@ -412,7 +407,7 @@
 
 <!-- ═══════════════ BALANCE MODAL ═══════════════ -->
 <div id="balance-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
-  <div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
+  <div class="modal-box animate-fadeInDown bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
     <div class="bg-gradient-to-r from-primary to-teal-700 px-6 py-5">
       <div class="flex items-center justify-between">
         <h3 class="font-bold text-white text-lg">💰 My Balance</h3>
