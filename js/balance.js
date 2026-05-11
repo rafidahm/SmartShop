@@ -38,7 +38,7 @@ export function canAfford(amount) { return getBalance() >= amount; }
 export function renderBalance() {
   const bal = getBalance().toFixed(2);
   document.querySelectorAll('.balance-display').forEach(el => {
-    el.textContent = `৳${bal}`;
+    el.textContent = `$${bal}`;
   });
 }
 
@@ -71,10 +71,10 @@ function handleAddMoney() {
   }
 
   addBalance(amount);
-  errEl.textContent = `✓ ৳${amount.toFixed(2)} added successfully!`;
+  errEl.textContent = `✓ $${amount.toFixed(2)} added successfully!`;
   errEl.className   = 'text-sm mt-1 h-4 text-primary';
   inp.value = '';
-  window.showToast(`৳${amount.toFixed(2)} added to balance!`, 'success');
+  window.showToast(`$${amount.toFixed(2)} added to balance!`, 'success');
   setTimeout(() => { errEl.textContent = ''; }, 3000);
 }
 
