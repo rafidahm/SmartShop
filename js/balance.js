@@ -57,12 +57,21 @@ function closeModal() {
   const err = document.getElementById('balance-error');
   if (inp) inp.value = '';
   if (err) { err.textContent = ''; err.className = 'text-sm mt-1 h-4'; }
+  // Reset payment method selection
+  document.querySelectorAll('input[name="payment-method"]').forEach(r => r.checked = false);
 }
 
 function handleAddMoney() {
   const inp    = document.getElementById('add-amount-input');
   const errEl  = document.getElementById('balance-error');
-  const amount = parseFloat(inp?.value);
+  const method = document.querySelector('input[name="payment-method"]:checked');
+  const amount = parseFloat(inp?.value?.replace(/[^0-9.]/g, ''));
+
+  if (!method) {
+    errEl.textContent = 'Please select a payment method.';
+    errEl.className   = 'text-sm mt-1 h-4 text-red-500';
+    return;
+  }
 
   if (!inp?.value || isNaN(amount) || amount <= 0) {
     errEl.textContent = 'Please enter a valid positive amount.';
@@ -71,10 +80,10 @@ function handleAddMoney() {
   }
 
   addBalance(amount);
-  errEl.textContent = `✓ $${amount.toFixed(2)} added successfully!`;
+  errEl.textContent = `✓ $${amount.toFixed(2)} added via ${method.value === 'bkash' ? 'bKash' : 'Visa'}!`;
   errEl.className   = 'text-sm mt-1 h-4 text-primary';
   inp.value = '';
-  window.showToast(`$${amount.toFixed(2)} added to balance!`, 'success');
+  window.showToast(`$${amount.toFixed(2)} added via ${method.value === 'bkash' ? 'bKash' : 'Visa'}!`, 'success');
   setTimeout(() => { errEl.textContent = ''; }, 3000);
 }
 
