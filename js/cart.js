@@ -38,6 +38,22 @@ export function addItem(product) {
   }
   const cart = getCart();
   const idx  = cart.findIndex(i => i.id === product.id);
+  // Build tentative cart to check new total
+  const tentative = cart.map(i => ({ ...i }));
+  if (idx > -1) {
+    tentative[idx].quantity++;
+  } else {
+    tentative.push({ id: product.id, title: product.title, price: product.price, image: product.image, quantity: 1 });
+  }
+  const tentativeSubtotal = tentative.reduce((s, i) => s + i.price * i.quantity, 0);
+  const tentativeDelivery = tentativeSubtotal >= DELIVERY_FREE_THRESHOLD ? 0 : DELIVERY_FEE;
+  // Check against raw total WITHOUT coupon — balance must cover the full price
+  const tentativeTotal    = tentativeSubtotal + tentativeDelivery;
+  if (!canAfford(tentativeTotal)) {
+    window.showToast('⚠️ Cannot add item — cart total would exceed your available balance!', 'warning');
+    return;
+  }
+  // Commit to real cart
   if (idx > -1) {
     cart[idx].quantity++;
   } else {
@@ -59,6 +75,19 @@ export function changeQty(id, delta) {
   const cart = getCart();
   const idx  = cart.findIndex(i => i.id === id);
   if (idx === -1) return;
+  // When increasing qty, check balance before committing
+  if (delta > 0) {
+    const tentative = cart.map(i => ({ ...i }));
+    tentative[idx].quantity += delta;
+    const tentativeSubtotal = tentative.reduce((s, i) => s + i.price * i.quantity, 0);
+    const tentativeDelivery = tentativeSubtotal >= DELIVERY_FREE_THRESHOLD ? 0 : DELIVERY_FEE;
+    // Check against raw total WITHOUT coupon — balance must cover the full price
+    const tentativeTotal    = tentativeSubtotal + tentativeDelivery;
+    if (!canAfford(tentativeTotal)) {
+      window.showToast('⚠️ Cannot increase quantity — cart total would exceed your available balance!', 'warning');
+      return;
+    }
+  }
   cart[idx].quantity += delta;
   if (cart[idx].quantity <= 0) cart.splice(idx, 1);
   saveCart(cart);
@@ -156,12 +185,6 @@ function handleCheckout() {
   if (!isLoggedIn()) { openAuthModal('login'); return; }
   const { total } = calcTotals();
   if (total === 0) { window.showToast('Your cart is empty!', 'warning'); return; }
-  if (!canAfford(total)) {
-    window.showToast('Insufficient balance! Please add funds.', 'error');
-    document.getElementById('balance-modal')?.classList.remove('hidden');
-    document.getElementById('balance-modal')?.classList.add('flex');
-    return;
-  }
   deductBalance(total);
   renderBalance();
   saveCart([]);
