@@ -39,28 +39,27 @@ export function logout() {
 export function updateNavAuthUI() {
   const session       = getSession();
   const loginBtn      = document.getElementById('nav-login-btn');
-  const logoutBtn     = document.getElementById('nav-logout-btn');
-  const userGreeting  = document.getElementById('nav-user-greeting');
-  const mLoginBtn     = document.getElementById('mobile-login-btn');
-  const mLogoutBtn    = document.getElementById('mobile-logout-btn');
-  const mGreeting     = document.getElementById('mobile-user-greeting');
   const balanceBtns   = document.querySelectorAll('.balance-btn');
 
+  // Desktop Profile Elements
+  const navProfileMenu = document.getElementById('nav-profile-menu');
+  const navUserName    = document.getElementById('nav-user-greeting');
+
   if (session) {
-    loginBtn  && (loginBtn.style.display  = 'none');
-    logoutBtn && (logoutBtn.style.display = 'inline-flex');
-    userGreeting && (userGreeting.textContent = `Hi, ${session.name}`, userGreeting.classList.remove('hidden'));
-    mLoginBtn  && (mLoginBtn.style.display  = 'none');
-    mLogoutBtn && (mLogoutBtn.style.display = 'inline-flex');
-    mGreeting  && (mGreeting.textContent = `Hi, ${session.name}`, mGreeting.classList.remove('hidden'));
+    if (loginBtn) loginBtn.style.display = 'none';
+    
+    if (navProfileMenu) navProfileMenu.classList.remove('hidden');
+    if (navUserName) navUserName.textContent = session.name;
+
     balanceBtns.forEach(btn => btn.style.display = '');
   } else {
-    loginBtn  && (loginBtn.style.display  = 'inline-flex');
-    logoutBtn && (logoutBtn.style.display = 'none');
-    userGreeting && (userGreeting.classList.add('hidden'));
-    mLoginBtn  && (mLoginBtn.style.display  = 'inline-flex');
-    mLogoutBtn && (mLogoutBtn.style.display = 'none');
-    mGreeting  && (mGreeting.classList.add('hidden'));
+    if (loginBtn) loginBtn.style.display = 'inline-flex';
+    
+    if (navProfileMenu) navProfileMenu.classList.add('hidden');
+    
+    // Close dropdown on logout
+    document.getElementById('nav-profile-dropdown')?.classList.add('hidden');
+
     balanceBtns.forEach(btn => btn.style.display = 'none');
   }
 }
@@ -112,11 +111,34 @@ export function init() {
 
   /* Open modal buttons */
   document.getElementById('nav-login-btn')?.addEventListener('click', () => openAuthModal('login'));
-  document.getElementById('mobile-login-btn')?.addEventListener('click', () => openAuthModal('login'));
+  document.getElementById('mobile-login-btn')?.addEventListener('click', () => {
+    openAuthModal('login');
+    // Also close mobile menu if it's open (optional, assuming handled elsewhere)
+  });
+
+  /* Profile Dropdown Toggle */
+  const navProfileBtn = document.getElementById('nav-profile-btn');
+  const navProfileDropdown = document.getElementById('nav-profile-dropdown');
+  
+  navProfileBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navProfileDropdown?.classList.toggle('hidden');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navProfileBtn?.contains(e.target) && !navProfileDropdown?.contains(e.target)) {
+      navProfileDropdown?.classList.add('hidden');
+    }
+  });
 
   /* Logout buttons */
-  document.getElementById('nav-logout-btn')?.addEventListener('click', () => { logout(); window.showToast('Logged out successfully.', 'info'); });
-  document.getElementById('mobile-logout-btn')?.addEventListener('click', () => { logout(); window.showToast('Logged out successfully.', 'info'); });
+  const handleLogoutClick = () => { 
+    logout(); 
+    window.showToast('Logged out successfully.', 'info'); 
+  };
+  document.getElementById('nav-logout-btn')?.addEventListener('click', handleLogoutClick);
+  document.getElementById('mobile-logout-btn')?.addEventListener('click', handleLogoutClick);
 
   /* Modal close */
   document.getElementById('auth-modal-close')?.addEventListener('click', closeAuthModal);
