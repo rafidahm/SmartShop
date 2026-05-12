@@ -13,7 +13,7 @@ const COUPONS = { 'SMART10': 0.10, 'BLACK50': 0.50 };
 
 /* ── Storage ──────────────────────────────────────────── */
 export function getCart()  { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
-function saveCart(c)       { localStorage.setItem(CART_KEY, JSON.stringify(c)); }
+function saveCart(c)       { if (c.length === 0) saveCoupon(null); localStorage.setItem(CART_KEY, JSON.stringify(c)); }
 function getCoupon()       { return JSON.parse(localStorage.getItem(COUPON_KEY) || 'null'); }
 function saveCoupon(c)     { localStorage.setItem(COUPON_KEY, JSON.stringify(c)); }
 export function getCount() { return getCart().reduce((s, i) => s + i.quantity, 0); }

@@ -65,7 +65,7 @@ function handleAddMoney() {
   const inp    = document.getElementById('add-amount-input');
   const errEl  = document.getElementById('balance-error');
   const method = document.querySelector('input[name="payment-method"]:checked');
-  const amount = parseFloat(inp?.value?.replace(/[^0-9.]/g, ''));
+  const amount = parseFloat(inp?.value);
 
   if (!method) {
     errEl.textContent = 'Please select a payment method.';
@@ -106,14 +106,20 @@ export function init() {
 
   addBtn?.addEventListener('click', handleAddMoney);
   addInp?.addEventListener('keydown', e => {
+    if (['+', '-', 'e', 'E'].includes(e.key)) e.preventDefault();
     if (e.key === 'Enter') handleAddMoney();
   });
 
-  // Real-time validation clear
+  // Real-time validation clear and decimal enforcement
   const validateClear = () => {
+    if (addInp && addInp.value.includes('.')) {
+      const parts = addInp.value.split('.');
+      if (parts[1].length > 2) addInp.value = `${parts[0]}.${parts[1].substring(0, 2)}`;
+    }
+
     if (errEl && errEl.textContent) {
       const method = document.querySelector('input[name="payment-method"]:checked');
-      const amount = parseFloat(addInp?.value?.replace(/[^0-9.]/g, ''));
+      const amount = parseFloat(addInp?.value);
       if (method && amount > 0) {
         errEl.textContent = '';
       }
