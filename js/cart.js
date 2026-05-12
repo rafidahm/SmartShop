@@ -204,18 +204,23 @@ function handleCheckout() {
   if (!isLoggedIn()) { openAuthModal('login'); return; }
   const { total } = calcTotals();
   if (total === 0) { window.showToast('Your cart is empty!', 'warning'); return; }
-  deductBalance(total);
-  renderBalance();
-  saveCart([]);
-  saveCoupon(null);
-  updateCartBadge();
-  renderCartItems();
-  closeCart();
-  const inp = document.getElementById('coupon-input');
-  const msg = document.getElementById('coupon-message');
-  if (inp) inp.value = '';
-  if (msg) msg.textContent = '';
-  window.showToast('🎉 Order placed successfully!', 'success');
+  
+  try {
+    deductBalance(total);
+    renderBalance();
+    saveCart([]);
+    saveCoupon(null);
+    updateCartBadge();
+    renderCartItems();
+    closeCart();
+    const inp = document.getElementById('coupon-input');
+    const msg = document.getElementById('coupon-message');
+    if (inp) inp.value = '';
+    if (msg) msg.textContent = '';
+    window.showToast('🎉 Order placed successfully!', 'success');
+  } catch (error) {
+    window.showToast(error.message, 'error');
+  }
 }
 
 /* ── Init ─────────────────────────────────────────────── */
