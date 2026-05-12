@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth font-sans">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="SmartShop – Your smart shopping destination for electronics, fashion, and more at unbeatable prices."/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="SmartShop – Your smart shopping destination for electronics, fashion, and more at unbeatable prices." />
   <title>SmartShop – Smart Shopping, Better Living</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap"
+    rel="stylesheet" />
   <!-- Tailwind CDN loads first so tailwind.config is available -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     // @ts-nocheck
     tailwind.config = {
-      theme: { 
-        extend: { 
+      theme: {
+        extend: {
           colors: {
-            primary:   { DEFAULT:'#14B8A6', 50:'#f0fdfa', 100:'#ccfbf1', 500:'#14b8a6', 600:'#0d9488', 700:'#0f766e' },
-            secondary: { DEFAULT:'#84CC16' },
-            accent:    { DEFAULT:'#F97316', 500:'#f97316', 600:'#ea580c' }
-          }, 
-          fontFamily: { sans: ['Inter','sans-serif'] },
+            primary: { DEFAULT: '#14B8A6', 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e' },
+            secondary: { DEFAULT: '#84CC16' },
+            accent: { DEFAULT: '#F97316', 500: '#f97316', 600: '#ea580c' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
           backgroundImage: {
             'skeleton': 'linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%)'
           },
@@ -32,449 +35,590 @@
             shimmer: 'shimmer 1.5s infinite',
             fadeInDown: 'fadeInDown 0.25s ease'
           }
-        } 
+        }
       }
     };
   </script>
 </head>
+
 <body class="bg-slate-50 text-gray-800 antialiased overflow-x-hidden">
 
-<!-- ═══════════════ NAVBAR ═══════════════ -->
-<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-shadow duration-300">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <!-- Logo -->
-      <a href="#home" class="flex items-center gap-2 group">
-        <img src="./logo.png" alt="SmartShop Logo" class="w-8 h-8 object-contain drop-shadow-sm" />
-        <span class="text-xl font-black text-gray-900">Smart<span class="text-primary">Shop</span></span>
-      </a>
-      <!-- Desktop Nav Links -->
-      <div class="hidden md:flex items-center gap-6">
-        <a href="#home"     class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Home</a>
-        <a href="#products" class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Products</a>
-        <a href="#reviews"  class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Reviews</a>
-        <a href="#contact"  class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Contact</a>
-      </div>
-      <!-- Right Actions -->
-      <div class="flex items-center gap-2">
-        <!-- Cart -->
-        <button class="cart-open-btn relative p-2 text-gray-600 hover:text-primary transition-colors" aria-label="Cart">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-          <span class="cart-badge absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-accent text-white text-[10px] font-bold rounded-full inline-flex items-center justify-center px-1 scale-0 transition-transform">0</span>
-        </button>
-        <!-- Login btn -->
-        <button id="nav-login-btn" class="hidden items-center gap-1 bg-primary text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-teal-700 transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-          Login
-        </button>
-        <!-- Logged in state dropdown container -->
-        <div id="nav-profile-menu" class="hidden relative">
-          <button id="nav-profile-btn" class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-3 py-1.5 rounded-full transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span id="nav-user-greeting" class="max-w-[100px] truncate">Profile</span>
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <nav id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-shadow duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#home" class="flex items-center gap-2 group">
+          <img src="./logo.png" alt="SmartShop Logo" class="w-8 h-8 object-contain drop-shadow-sm" />
+          <span class="text-xl font-black text-gray-900">Smart<span class="text-primary">Shop</span></span>
+        </a>
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#home" class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Home</a>
+          <a href="#products" class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Products</a>
+          <a href="#reviews" class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Reviews</a>
+          <a href="#contact" class="nav-link text-sm text-gray-600 hover:text-primary transition-colors">Contact</a>
+        </div>
+        <!-- Right Actions -->
+        <div class="flex items-center gap-2">
+          <!-- Cart -->
+          <button class="cart-open-btn relative p-2 text-gray-600 hover:text-primary transition-colors"
+            aria-label="Cart">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span
+              class="cart-badge absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-accent text-white text-[10px] font-bold rounded-full inline-flex items-center justify-center px-1 scale-0 transition-transform">0</span>
           </button>
-          
-          <!-- Dropdown -->
-          <div id="nav-profile-dropdown" class="hidden absolute left-1/2 -translate-x-1/2 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-gray-100 py-1 z-50">
-            <button class="balance-btn w-full px-4 py-3 border-b border-gray-50 flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
-              <span class="text-xs font-semibold text-gray-500 mb-0.5">Balance</span>
-              <span class="text-base font-bold text-primary balance-display">$1000.00</span>
+          <!-- Login btn -->
+          <button id="nav-login-btn"
+            class="hidden items-center gap-1 bg-primary text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-teal-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Login
+          </button>
+          <!-- Logged in state dropdown container -->
+          <div id="nav-profile-menu" class="hidden relative">
+            <button id="nav-profile-btn"
+              class="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-3 py-1.5 rounded-full transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span id="nav-user-greeting" class="max-w-[100px] truncate">Profile</span>
             </button>
-            <button id="nav-logout-btn" class="w-full text-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors font-semibold flex justify-center items-center gap-1.5">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-              Logout
-            </button>
+
+            <!-- Dropdown -->
+            <div id="nav-profile-dropdown"
+              class="hidden absolute left-1/2 -translate-x-1/2 mt-2 w-44 bg-white rounded-2xl shadow-xl border border-gray-100 py-1 z-50">
+              <button
+                class="balance-btn w-full px-4 py-3 border-b border-gray-50 flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
+                <span class="text-xs font-semibold text-gray-500 mb-0.5">Balance</span>
+                <span class="text-base font-bold text-primary balance-display">$1000.00</span>
+              </button>
+              <button id="nav-logout-btn"
+                class="w-full text-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors font-semibold flex justify-center items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
+              </button>
+            </div>
+          </div>
+          <!-- Hamburger -->
+          <button id="hamburger-btn" class="md:hidden p-2 flex flex-col gap-1.5 group" aria-label="Menu">
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300 origin-center"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300 origin-center"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-4 gap-2 shadow-lg">
+      <a href="#home"
+        class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">🏠
+        Home</a>
+      <a href="#products"
+        class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">🛒
+        Products</a>
+      <a href="#reviews"
+        class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">⭐
+        Reviews</a>
+      <a href="#contact"
+        class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">✉️
+        Contact</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO BANNER ═══════════════ -->
+  <section id="home" class="pt-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-4">
+      <div id="banner-wrapper"
+        class="relative overflow-hidden w-full bg-slate-50 rounded-2xl shadow-sm border border-gray-100">
+        <div id="banner-track"
+          class="flex h-full w-full transition-transform duration-[600ms] ease-[cubic-bezier(.4,0,.2,1)] will-change-transform">
+        </div>
+        <!-- Arrows -->
+        <button id="banner-prev"
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-white text-primary rounded-full flex items-center justify-center transition-all z-10 shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button id="banner-next"
+          class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-white text-primary rounded-full flex items-center justify-center transition-all z-10 shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+        <!-- Dots -->
+        <div id="banner-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PRODUCTS ═══════════════ -->
+  <section id="products" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">Our
+          Collection</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">Featured Products</h2>
+        <p class="text-gray-500 mt-2 max-w-xl mx-auto text-sm">Discover our curated selection of top-quality products at
+          amazing prices.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 mb-6">
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input id="search-input" type="text" placeholder="Search products..."
+            class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" />
+        </div>
+        <select id="category-filter"
+          class="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white min-w-[160px]"></select>
+        <select id="sort-select"
+          class="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white min-w-[160px]">
+          <option value="default">Sort: Default</option>
+          <option value="asc">Price: Low → High</option>
+          <option value="desc">Price: High → Low</option>
+        </select>
+      </div>
+      <p id="product-count" class="text-xs text-gray-400 mb-4"></p>
+      <div id="products-error" class="hidden text-center py-12">
+        <p class="text-gray-500 mb-3">⚠️ Failed to load products.</p>
+        <button id="retry-btn"
+          class="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-teal-700 transition-colors">Retry</button>
+      </div>
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </div>
+  </section>
+
+  <section id="reviews" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <span
+          class="text-xs font-bold text-accent bg-orange-50 px-3 py-1 rounded-full uppercase tracking-widest">Testimonials</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">What Our Customers Say</h2>
+
+      </div>
+      <div class="relative">
+        <div class="overflow-hidden">
+          <div id="reviews-track"
+            class="flex gap-0 transition-transform duration-500 ease-[cubic-bezier(.4,0,.2,1)] will-change-transform">
           </div>
         </div>
-        <!-- Hamburger -->
-        <button id="hamburger-btn" class="md:hidden p-2 flex flex-col gap-1.5 group" aria-label="Menu">
-          <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300 origin-center"></span>
-          <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
-          <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300 origin-center"></span>
+        <button id="reviews-prev"
+          class="absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg hover:shadow-xl border border-gray-100 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button id="reviews-next"
+          class="absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg hover:shadow-xl border border-gray-100 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
         </button>
       </div>
+      <div id="reviews-dots" class="flex justify-center gap-2 mt-8"></div>
     </div>
-  </div>
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-4 gap-2 shadow-lg">
-    <a href="#home"     class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">🏠 Home</a>
-    <a href="#products" class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">🛒 Products</a>
-    <a href="#reviews"  class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">⭐ Reviews</a>
-    <a href="#contact"  class="mobile-nav-link block py-3 px-3 rounded-xl text-base font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors text-center">✉️ Contact</a>
-  </div>
-</nav>
+  </section>
 
-<!-- ═══════════════ HERO BANNER ═══════════════ -->
-<section id="home" class="pt-16 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-4">
-    <div id="banner-wrapper" class="relative overflow-hidden w-full bg-slate-50 rounded-2xl shadow-sm border border-gray-100">
-      <div id="banner-track" class="flex h-full w-full transition-transform duration-[600ms] ease-[cubic-bezier(.4,0,.2,1)] will-change-transform"></div>
-      <!-- Arrows -->
-      <button id="banner-prev" class="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-white text-primary rounded-full flex items-center justify-center transition-all z-10 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      <button id="banner-next" class="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-white text-primary rounded-full flex items-center justify-center transition-all z-10 shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-      </button>
-      <!-- Dots -->
-      <div id="banner-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ PRODUCTS ═══════════════ -->
-<section id="products" class="py-16 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-10">
-      <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">Our Collection</span>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">Featured Products</h2>
-      <p class="text-gray-500 mt-2 max-w-xl mx-auto text-sm">Discover our curated selection of top-quality products at amazing prices.</p>
-    </div>
-    <div class="flex flex-col sm:flex-row gap-3 mb-6">
-      <div class="relative flex-1">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input id="search-input" type="text" placeholder="Search products..." class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"/>
+  <!-- ═══════════════ ABOUT ═══════════════ -->
+  <section id="about" class="py-16 bg-gradient-to-br from-primary/5 to-teal-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-secondary bg-lime-50 px-3 py-1 rounded-full uppercase tracking-widest">About
+          Us</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">Why Choose SmartShop?</h2>
+        <p class="text-gray-500 mt-2 text-sm max-w-2xl mx-auto">We're on a mission to make quality shopping accessible
+          to everyone. Discover thousands of products with fast delivery and exceptional customer support.</p>
       </div>
-      <select id="category-filter" class="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white min-w-[160px]"></select>
-      <select id="sort-select" class="border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white min-w-[160px]">
-        <option value="default">Sort: Default</option>
-        <option value="asc">Price: Low → High</option>
-        <option value="desc">Price: High → Low</option>
-      </select>
-    </div>
-    <p id="product-count" class="text-xs text-gray-400 mb-4"></p>
-    <div id="products-error" class="hidden text-center py-12">
-      <p class="text-gray-500 mb-3">⚠️ Failed to load products.</p>
-      <button id="retry-btn" class="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-teal-700 transition-colors">Retry</button>
-    </div>
-    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-  </div>
-</section>
-
-<section id="reviews" class="py-16 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-10">
-      <span class="text-xs font-bold text-accent bg-orange-50 px-3 py-1 rounded-full uppercase tracking-widest">Testimonials</span>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">What Our Customers Say</h2>
-      <p class="text-gray-500 mt-2 text-sm max-w-xl mx-auto">Real reviews from verified buyers who love shopping with SmartShop.</p>
-    </div>
-    <div class="relative">
-      <div class="overflow-hidden">
-        <div id="reviews-track" class="flex gap-0 transition-transform duration-500 ease-[cubic-bezier(.4,0,.2,1)] will-change-transform"></div>
-      </div>
-      <button id="reviews-prev" class="absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg hover:shadow-xl border border-gray-100 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all z-10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      <button id="reviews-next" class="absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg hover:shadow-xl border border-gray-100 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all z-10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-    <div id="reviews-dots" class="flex justify-center gap-2 mt-8"></div>
-  </div>
-</section>
-
-<!-- ═══════════════ ABOUT ═══════════════ -->
-<section id="about" class="py-16 bg-gradient-to-br from-primary/5 to-teal-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <span class="text-xs font-bold text-secondary bg-lime-50 px-3 py-1 rounded-full uppercase tracking-widest">About Us</span>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">Why Choose SmartShop?</h2>
-      <p class="text-gray-500 mt-2 text-sm max-w-2xl mx-auto">We're on a mission to make quality shopping accessible to everyone. Discover thousands of products with fast delivery and exceptional customer support.</p>
-    </div>
-    <!-- Feature cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-      <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow text-center group">
-        <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-          <span class="text-2xl">🚀</span>
+      <!-- Feature cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow text-center group">
+          <div
+            class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+            <span class="text-2xl">🚀</span>
+          </div>
+          <h3 class="font-bold text-gray-800 mb-2">Fast Delivery</h3>
+          <p class="text-sm text-gray-500">Orders over $50 get free shipping. Express delivery available nationwide.</p>
         </div>
-        <h3 class="font-bold text-gray-800 mb-2">Fast Delivery</h3>
-        <p class="text-sm text-gray-500">Orders over $50 get free shipping. Express delivery available nationwide.</p>
-      </div>
-      <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow text-center group">
-        <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-colors">
-          <span class="text-2xl">🛡️</span>
+        <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow text-center group">
+          <div
+            class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-colors">
+            <span class="text-2xl">🛡️</span>
+          </div>
+          <h3 class="font-bold text-gray-800 mb-2">Secure Payments</h3>
+          <p class="text-sm text-gray-500">Your transactions are 100% safe with our encrypted payment system.</p>
         </div>
-        <h3 class="font-bold text-gray-800 mb-2">Secure Payments</h3>
-        <p class="text-sm text-gray-500">Your transactions are 100% safe with our encrypted payment system.</p>
-      </div>
-      <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow text-center group">
-        <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-secondary/20 transition-colors">
-          <span class="text-2xl">💎</span>
-        </div>
-        <h3 class="font-bold text-gray-800 mb-2">Premium Quality</h3>
-        <p class="text-sm text-gray-500">Every product is verified for quality. Shop with confidence every time.</p>
-      </div>
-    </div>
-    <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 shadow text-center">
-        <p class="text-3xl font-black text-primary">20+</p>
-        <p class="text-xs text-gray-500 mt-1">Products</p>
-      </div>
-      <div class="bg-white rounded-2xl p-5 shadow text-center">
-        <p class="text-3xl font-black text-accent">500+</p>
-        <p class="text-xs text-gray-500 mt-1">Happy Customers</p>
-      </div>
-      <div class="bg-white rounded-2xl p-5 shadow text-center">
-        <p class="text-3xl font-black text-secondary">20+</p>
-        <p class="text-xs text-gray-500 mt-1">Verified Reviews</p>
-      </div>
-      <div class="bg-white rounded-2xl p-5 shadow text-center">
-        <p class="text-3xl font-black text-purple-500">24/7</p>
-        <p class="text-xs text-gray-500 mt-1">Support</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ CONTACT ═══════════════ -->
-<section id="contact" class="py-16 bg-white">
-  <div class="max-w-2xl mx-auto px-4 sm:px-6">
-    <div class="text-center mb-10">
-      <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">Get In Touch</span>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">Contact Us</h2>
-      <p class="text-gray-500 mt-2 text-sm">Have a question or feedback? We'd love to hear from you.</p>
-    </div>
-    <form id="contact-form" class="bg-gray-50 rounded-2xl p-6 md:p-8 shadow-md space-y-4" novalidate>
-      <div>
-        <label for="contact-name" class="block text-sm font-semibold text-gray-700 mb-1">Your Name</label>
-        <input id="contact-name" type="text" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"/>
-      </div>
-      <div>
-        <label for="contact-email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
-        <input id="contact-email" type="email" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"/>
-      </div>
-      <div>
-        <label for="contact-message" class="block text-sm font-semibold text-gray-700 mb-1">Message</label>
-        <textarea id="contact-message" rows="4" placeholder="Write your message here..." class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white resize-none"></textarea>
-      </div>
-      <p id="contact-error" class="text-red-500 text-xs"></p>
-      <div id="contact-success" class="hidden bg-green-50 border border-green-200 text-green-700 text-sm rounded-xl px-4 py-3">
-        ✓ Message sent successfully! We'll get back to you within 24 hours.
-      </div>
-      <button type="submit" class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-        Send Message
-      </button>
-    </form>
-  </div>
-</section>
-
-<!-- ═══════════════ FOOTER ═══════════════ -->
-<footer id="footer" class="bg-gray-900 text-gray-400 pt-12 pb-6">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 mb-10">
-      <div class="col-span-2 md:col-span-2 mb-6 md:mb-0">
-        <div class="flex items-center gap-2 mb-3">
-          <img src="./logo.png" alt="SmartShop Logo" class="w-8 h-8 object-contain" />
-          <span class="text-xl font-black text-white">Smart<span class="text-primary">Shop</span></span>
-        </div>
-        <p class="text-sm leading-relaxed max-w-sm">Your one-stop shop for quality products at unbeatable prices. Smart shopping, better living.</p>
-        <div class="flex items-center gap-4 mt-4">
-          <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/fb.png" alt="Facebook" class="w-7 h-7 object-contain" /></a>
-          <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/lin.png" alt="LinkedIn" class="w-7 h-7 object-contain" /></a>
-          <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/twitter.png" alt="Twitter" class="w-7 h-7 object-contain" /></a>
-          <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/ig.png" alt="Instagram" class="w-7 h-7 object-contain" /></a>
+        <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-shadow text-center group">
+          <div
+            class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-secondary/20 transition-colors">
+            <span class="text-2xl">💎</span>
+          </div>
+          <h3 class="font-bold text-gray-800 mb-2">Premium Quality</h3>
+          <p class="text-sm text-gray-500">Every product is verified for quality. Shop with confidence every time.</p>
         </div>
       </div>
-      <div>
-        <h4 class="text-white font-bold mb-4 text-sm">Quick Links</h4>
-        <ul class="space-y-2 text-sm">
-          <li><a href="#home"     class="hover:text-primary transition-colors">Home</a></li>
-          <li><a href="#products" class="hover:text-primary transition-colors">Products</a></li>
-          <li><a href="#reviews"  class="hover:text-primary transition-colors">Reviews</a></li>
-          <li><a href="#about"    class="hover:text-primary transition-colors">About Us</a></li>
-          <li><a href="#contact"  class="hover:text-primary transition-colors">Contact</a></li>
-        </ul>
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-primary">20+</p>
+          <p class="text-xs text-gray-500 mt-1">Products</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-accent">500+</p>
+          <p class="text-xs text-gray-500 mt-1">Happy Customers</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-secondary">20+</p>
+          <p class="text-xs text-gray-500 mt-1">Verified Reviews</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow text-center">
+          <p class="text-3xl font-black text-purple-500">24/7</p>
+          <p class="text-xs text-gray-500 mt-1">Support</p>
+        </div>
       </div>
-      <div>
-        <h4 class="text-white font-bold mb-4 text-sm">Contact Info</h4>
-        <ul class="space-y-2 text-sm">
-          <li class="break-all">📧 support@smartshop.com</li>
-          <li>📞 +880 1234 567890</li>
-          <li>📍 Dhaka, Bangladesh</li>
-          <li>🕐 Mon–Sat: 9AM – 8PM</li>
-        </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CONTACT ═══════════════ -->
+  <section id="contact" class="py-16 bg-white">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-widest">Get
+          In Touch</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-3">Contact Us</h2>
+        <p class="text-gray-500 mt-2 text-sm">Have a question or feedback? We'd love to hear from you.</p>
+      </div>
+      <form id="contact-form" class="bg-gray-50 rounded-2xl p-6 md:p-8 shadow-md space-y-4" novalidate>
+        <div>
+          <label for="contact-name" class="block text-sm font-semibold text-gray-700 mb-1">Your Name</label>
+          <input id="contact-name" type="text"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" />
+        </div>
+        <div>
+          <label for="contact-email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+          <input id="contact-email" type="email"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" />
+        </div>
+        <div>
+          <label for="contact-message" class="block text-sm font-semibold text-gray-700 mb-1">Message</label>
+          <textarea id="contact-message" rows="4" placeholder="Write your message here..."
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white resize-none"></textarea>
+        </div>
+        <p id="contact-error" class="text-red-500 text-xs"></p>
+        <div id="contact-success"
+          class="hidden bg-green-50 border border-green-200 text-green-700 text-sm rounded-xl px-4 py-3">
+          ✓ Message sent successfully! We'll get back to you within 24 hours.
+        </div>
+        <button type="submit"
+          class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+          Send Message
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer id="footer" class="bg-gray-900 text-gray-400 pt-12 pb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 mb-10">
+        <div class="col-span-2 md:col-span-2 mb-6 md:mb-0">
+          <div class="flex items-center gap-2 mb-3">
+            <img src="./logo.png" alt="SmartShop Logo" class="w-8 h-8 object-contain" />
+            <span class="text-xl font-black text-white">Smart<span class="text-primary">Shop</span></span>
+          </div>
+          <p class="text-sm leading-relaxed max-w-sm">Your one-stop shop for quality products at unbeatable prices.
+            Smart shopping, better living.</p>
+          <div class="flex items-center gap-4 mt-4">
+            <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/fb.png" alt="Facebook"
+                class="w-5 h-5 object-contain" /></a>
+            <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/lin.png" alt="LinkedIn"
+                class="w-5 h-5 object-contain" /></a>
+            <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/twitter.png" alt="Twitter"
+                class="w-5 h-5 object-contain" /></a>
+            <a href="#" class="hover:opacity-80 transition-opacity"><img src="./promo_img/ig.png" alt="Instagram"
+                class="w-5 h-5 object-contain" /></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 text-sm">Quick Links</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#home" class="hover:text-primary transition-colors">Home</a></li>
+            <li><a href="#products" class="hover:text-primary transition-colors">Products</a></li>
+            <li><a href="#reviews" class="hover:text-primary transition-colors">Reviews</a></li>
+            <li><a href="#about" class="hover:text-primary transition-colors">About Us</a></li>
+            <li><a href="#contact" class="hover:text-primary transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 text-sm">Contact Info</h4>
+          <ul class="space-y-2 text-sm">
+            <li class="break-all">📧 support@smartshop.com</li>
+            <li>📞 +880 1234 567890</li>
+            <li>📍 Chittagong, Bangladesh</li>
+            <li>🕐 Mon–Sat: 9AM – 8PM</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-6 flex items-center justify-center text-xs">
+        <p class="text-center">© 2026 SmartShop. All rights reserved.</p>
       </div>
     </div>
-    <div class="border-t border-gray-800 pt-6 flex items-center justify-center text-xs">
-      <p class="text-center">© 2025 SmartShop. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<!-- ═══════════════ CART SIDEBAR ═══════════════ -->
-<div id="cart-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40"></div>
-<aside id="cart-sidebar" class="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 shadow-2xl flex flex-col translate-x-full transition-transform duration-[350ms] ease-[cubic-bezier(.4,0,.2,1)]">
-  <!-- Header -->
-  <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-primary to-teal-700">
-    <h3 class="font-bold text-white flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-      Shopping Cart
-    </h3>
-    <button id="cart-close-btn" class="text-white/80 hover:text-white transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-  </div>
-  <!-- Items -->
-  <div class="flex-1 overflow-y-auto min-h-0 px-5 py-3">
-    <div id="cart-empty-msg" class="flex flex-col items-center justify-center h-full text-center py-16">
-      <span class="text-5xl mb-4">🛒</span>
-      <p class="font-semibold text-gray-700">Your cart is empty</p>
-      <p class="text-sm text-gray-400 mt-1">Add some products to get started!</p>
-    </div>
-    <div id="cart-items-list"></div>
-  </div>
-  <!-- Footer -->
-  <div id="cart-footer" class="hidden shrink-0 border-t border-gray-100 px-5 pt-4 pb-5 sm:pb-5 bg-gray-50 space-y-3">
-    <!-- Coupon -->
-    <div id="coupon-input-group" class="flex gap-2">
-      <input id="coupon-input" type="text" placeholder="Enter coupon code" class="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"/>
-      <button id="coupon-apply-btn" class="bg-primary hover:bg-teal-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors">Apply</button>
-    </div>
-    <p id="coupon-message" class="text-xs h-4"></p>
-    <div id="applied-coupon-badge" class="hidden items-center justify-between px-3 py-2 bg-green-50 border border-green-200 rounded-xl">
-      <span id="applied-coupon-text" class="text-xs font-semibold text-green-700"></span>
-      <button id="coupon-remove-btn" class="text-red-500 hover:text-red-700 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <!-- Totals -->
-    <div class="space-y-1.5 text-sm border-t border-gray-200 pt-3">
-      <div class="flex justify-between text-gray-600"><span>Subtotal</span><span id="cart-subtotal" class="font-semibold">$0.00</span></div>
-      <div class="flex justify-between text-gray-600"><span>Delivery</span><span id="cart-delivery" class="font-semibold">$5.00</span></div>
-      <div class="flex justify-between text-green-600"><span>Discount</span><span id="cart-discount" class="font-semibold">$0.00</span></div>
-      <div class="flex justify-between text-gray-900 font-bold text-base border-t border-gray-200 pt-2 mt-1"><span>Total</span><span id="cart-total" class="text-primary">$0.00</span></div>
-    </div>
-
-    <!-- Checkout -->
-    <button id="checkout-btn" class="w-full bg-gradient-to-r from-accent to-orange-500 hover:from-orange-500 hover:to-accent text-white font-bold py-3 rounded-xl transition-all hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-      Checkout Now
-    </button>
-  </div>
-</aside>
-
-<!-- ═══════════════ AUTH MODAL ═══════════════ -->
-<div id="auth-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
-  <div class="modal-box animate-fadeInDown bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+  <!-- ═══════════════ CART SIDEBAR ═══════════════ -->
+  <div id="cart-overlay" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40"></div>
+  <aside id="cart-sidebar"
+    class="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 shadow-2xl flex flex-col translate-x-full transition-transform duration-[350ms] ease-[cubic-bezier(.4,0,.2,1)]">
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
-      <div class="flex gap-0">
-        <button id="tab-login"  class="px-4 py-1.5 text-sm font-semibold transition-colors border-b-2 border-primary text-primary mr-2">Login</button>
-        <button id="tab-signup" class="px-4 py-1.5 text-sm font-semibold text-gray-400 transition-colors">Sign Up</button>
-      </div>
-      <button id="auth-modal-close" class="text-gray-400 hover:text-gray-600 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    <div
+      class="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-primary to-teal-700">
+      <h3 class="font-bold text-white flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        Shopping Cart
+      </h3>
+      <button id="cart-close-btn" class="text-white/80 hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
     </div>
-    <!-- Login Panel -->
-    <div id="login-panel" class="px-6 py-5">
-      <p class="text-gray-500 text-sm mb-5">Welcome back! Login to continue shopping.</p>
-      <form id="login-form" novalidate class="space-y-4">
-        <div>
-          <label for="login-email" class="block text-xs font-semibold text-gray-700 mb-1">Email</label>
-          <input id="login-email" type="email" placeholder="you@example.com" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"/>
-        </div>
-        <div>
-          <label for="login-password" class="block text-xs font-semibold text-gray-700 mb-1">Password</label>
-          <input id="login-password" type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"/>
-        </div>
-        <p id="login-error" class="text-red-500 text-xs min-h-4"></p>
-        <button type="submit" class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition-colors text-sm">Login</button>
-        <p class="text-center text-xs text-gray-500">No account? <button type="button" onclick="document.getElementById('tab-signup').click()" class="text-primary font-semibold hover:underline">Sign Up</button></p>
-      </form>
+    <!-- Items -->
+    <div class="flex-1 overflow-y-auto min-h-0 px-5 py-3">
+      <div id="cart-empty-msg" class="flex flex-col items-center justify-center h-full text-center py-16">
+        <span class="text-5xl mb-4">🛒</span>
+        <p class="font-semibold text-gray-700">Your cart is empty</p>
+        <p class="text-sm text-gray-400 mt-1">Add some products to get started!</p>
+      </div>
+      <div id="cart-items-list"></div>
     </div>
-    <!-- Signup Panel -->
-    <div id="signup-panel" class="hidden px-6 py-5">
-      <p class="text-gray-500 text-sm mb-5">Create your SmartShop account today!</p>
-      <form id="signup-form" novalidate class="space-y-4">
-        <div>
-          <label for="signup-name" class="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
-          <input id="signup-name" type="text" placeholder="John Doe" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"/>
-        </div>
-        <div>
-          <label for="signup-email" class="block text-xs font-semibold text-gray-700 mb-1">Email</label>
-          <input id="signup-email" type="email" placeholder="you@example.com" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"/>
-        </div>
-        <div>
-          <label for="signup-password" class="block text-xs font-semibold text-gray-700 mb-1">Password <span class="font-normal text-gray-400">(min 6 chars)</span></label>
-          <input id="signup-password" type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"/>
-        </div>
-        <p id="signup-error" class="text-red-500 text-xs min-h-4"></p>
-        <button type="submit" class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition-colors text-sm">Create Account</button>
-        <p class="text-center text-xs text-gray-500">Already have an account? <button type="button" onclick="document.getElementById('tab-login').click()" class="text-primary font-semibold hover:underline">Login</button></p>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════ BALANCE MODAL ═══════════════ -->
-<div id="balance-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
-  <div class="modal-box animate-fadeInDown bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
-    <div class="bg-gradient-to-r from-primary to-teal-700 px-6 py-5">
-      <div class="flex items-center justify-between">
-        <h3 class="font-bold text-white text-lg">💰 My Balance</h3>
-        <button id="balance-modal-close" class="text-white/80 hover:text-white transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    <!-- Footer -->
+    <div id="cart-footer" class="hidden shrink-0 border-t border-gray-100 px-5 pt-4 pb-5 sm:pb-5 bg-gray-50 space-y-3">
+      <!-- Coupon -->
+      <div id="coupon-input-group" class="flex gap-2">
+        <input id="coupon-input" type="text" placeholder="Enter coupon code"
+          class="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" />
+        <button id="coupon-apply-btn"
+          class="bg-primary hover:bg-teal-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors">Apply</button>
+      </div>
+      <p id="coupon-message" class="text-xs h-4"></p>
+      <div id="applied-coupon-badge"
+        class="hidden items-center justify-between px-3 py-2 bg-green-50 border border-green-200 rounded-xl">
+        <span id="applied-coupon-text" class="text-xs font-semibold text-green-700"></span>
+        <button id="coupon-remove-btn" class="text-red-500 hover:text-red-700 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
+      <!-- Totals -->
+      <div class="space-y-1.5 text-sm border-t border-gray-200 pt-3">
+        <div class="flex justify-between text-gray-600"><span>Subtotal</span><span id="cart-subtotal"
+            class="font-semibold">$0.00</span></div>
+        <div class="flex justify-between text-gray-600"><span>Delivery</span><span id="cart-delivery"
+            class="font-semibold">$5.00</span></div>
+        <div class="flex justify-between text-green-600"><span>Discount</span><span id="cart-discount"
+            class="font-semibold">$0.00</span></div>
+        <div class="flex justify-between text-gray-900 font-bold text-base border-t border-gray-200 pt-2 mt-1">
+          <span>Total</span><span id="cart-total" class="text-primary">$0.00</span></div>
+      </div>
 
-      <p class="balance-display text-4xl font-black text-white mt-1">$1000.00</p>
-    </div>
-    <div class="px-6 py-5 space-y-4">
-      <!-- Amount -->
-      <div>
-        <label for="add-amount-input" class="block text-sm font-semibold text-gray-700 mb-1">Enter Amount</label>
-        <input id="add-amount-input" type="number" min="0.01" step="0.01" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"/>
-        <p id="balance-error" class="text-sm mt-1 h-4"></p>
-      </div>
-      <!-- Payment Method -->
-      <div>
-        <p class="text-sm font-semibold text-gray-700 mb-2 text-center">Payment Method</p>
-        <div class="grid grid-cols-2 gap-3">
-          <!-- bKash -->
-          <label id="pay-bkash-card" for="pay-bkash" class="relative flex flex-col items-center gap-1.5 border-2 border-gray-200 rounded-xl p-3 cursor-pointer transition-all hover:border-pink-400 hover:bg-pink-50 group has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50 has-[:checked]:shadow-md">
-            <input type="radio" id="pay-bkash" name="payment-method" value="bkash" class="sr-only peer"/>
-            <svg viewBox="0 0 60 36" class="w-12 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="60" height="36" rx="6" fill="#E2136E"/>
-              <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="11" font-family="Arial" font-weight="bold">bKash</text>
-            </svg>
-            <span class="text-xs font-semibold text-pink-600">bKash</span>
-            <span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-pink-500 text-white items-center justify-center hidden peer-checked:flex">
-              <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-            </span>
-          </label>
-          <!-- Visa -->
-          <label id="pay-visa-card" for="pay-visa" class="relative flex flex-col items-center gap-1.5 border-2 border-gray-200 rounded-xl p-3 cursor-pointer transition-all hover:border-blue-500 hover:bg-blue-50 group has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 has-[:checked]:shadow-md">
-            <input type="radio" id="pay-visa" name="payment-method" value="visa" class="sr-only peer"/>
-            <svg viewBox="0 0 60 36" class="w-12 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="60" height="36" rx="6" fill="#1A1F71"/>
-              <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#F7B600" font-size="14" font-family="Arial" font-weight="900" font-style="italic">VISA</text>
-            </svg>
-            <span class="text-xs font-semibold text-blue-700">Visa</span>
-            <span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-blue-600 text-white items-center justify-center hidden peer-checked:flex">
-              <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
-            </span>
-          </label>
-        </div>
-      </div>
-      <button id="add-money-btn" class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition-colors text-sm flex items-center justify-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        Add Money
+      <!-- Checkout -->
+      <button id="checkout-btn"
+        class="w-full bg-gradient-to-r from-accent to-orange-500 hover:from-orange-500 hover:to-accent text-white font-bold py-3 rounded-xl transition-all hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Checkout Now
       </button>
     </div>
+  </aside>
+
+  <!-- ═══════════════ AUTH MODAL ═══════════════ -->
+  <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="modal-box animate-fadeInDown bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
+        <div class="flex gap-0">
+          <button id="tab-login"
+            class="px-4 py-1.5 text-sm font-semibold transition-colors border-b-2 border-primary text-primary mr-2">Login</button>
+          <button id="tab-signup" class="px-4 py-1.5 text-sm font-semibold text-gray-400 transition-colors">Sign
+            Up</button>
+        </div>
+        <button id="auth-modal-close" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <!-- Login Panel -->
+      <div id="login-panel" class="px-6 py-5">
+        <p class="text-gray-500 text-sm mb-5">Welcome back! Login to continue shopping.</p>
+        <form id="login-form" novalidate class="space-y-4">
+          <div>
+            <label for="login-email" class="block text-xs font-semibold text-gray-700 mb-1">Email</label>
+            <input id="login-email" type="email" placeholder="you@example.com"
+              class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          </div>
+          <div>
+            <label for="login-password" class="block text-xs font-semibold text-gray-700 mb-1">Password</label>
+            <input id="login-password" type="password" placeholder="••••••••"
+              class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          </div>
+          <p id="login-error" class="text-red-500 text-xs min-h-4"></p>
+          <button type="submit"
+            class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition-colors text-sm">Login</button>
+          <p class="text-center text-xs text-gray-500">No account? <button type="button"
+              onclick="document.getElementById('tab-signup').click()"
+              class="text-primary font-semibold hover:underline">Sign Up</button></p>
+        </form>
+      </div>
+      <!-- Signup Panel -->
+      <div id="signup-panel" class="hidden px-6 py-5">
+        <p class="text-gray-500 text-sm mb-5">Create your SmartShop account today!</p>
+        <form id="signup-form" novalidate class="space-y-4">
+          <div>
+            <label for="signup-name" class="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
+            <input id="signup-name" type="text" placeholder="John Doe"
+              class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          </div>
+          <div>
+            <label for="signup-email" class="block text-xs font-semibold text-gray-700 mb-1">Email</label>
+            <input id="signup-email" type="email" placeholder="you@example.com"
+              class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          </div>
+          <div>
+            <label for="signup-password" class="block text-xs font-semibold text-gray-700 mb-1">Password <span
+                class="font-normal text-gray-400">(min 6 chars)</span></label>
+            <input id="signup-password" type="password" placeholder="••••••••"
+              class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          </div>
+          <p id="signup-error" class="text-red-500 text-xs min-h-4"></p>
+          <button type="submit"
+            class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition-colors text-sm">Create
+            Account</button>
+          <p class="text-center text-xs text-gray-500">Already have an account? <button type="button"
+              onclick="document.getElementById('tab-login').click()"
+              class="text-primary font-semibold hover:underline">Login</button></p>
+        </form>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- ═══════════════ TOAST ═══════════════ -->
-<div id="toast-container" class="fixed bottom-5 right-5 z-[60] flex flex-col gap-2 items-end"></div>
+  <!-- ═══════════════ BALANCE MODAL ═══════════════ -->
+  <div id="balance-modal"
+    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="modal-box animate-fadeInDown bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
+      <div class="bg-gradient-to-r from-primary to-teal-700 px-6 py-5">
+        <div class="flex items-center justify-between">
+          <h3 class="font-bold text-white text-lg">💰 My Balance</h3>
+          <button id="balance-modal-close" class="text-white/80 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-<!-- ═══════════════ BACK TO TOP ═══════════════ -->
-<button id="back-to-top" class="fixed bottom-20 right-5 z-40 w-11 h-11 bg-primary hover:bg-teal-700 text-white rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none hover:scale-110" aria-label="Back to top">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
-</button>
+        <p class="balance-display text-4xl font-black text-white mt-1">$1000.00</p>
+      </div>
+      <div class="px-6 py-5 space-y-4">
+        <!-- Amount -->
+        <div>
+          <label for="add-amount-input" class="block text-sm font-semibold text-gray-700 mb-1">Enter Amount</label>
+          <input id="add-amount-input" type="number" min="0.01" step="0.01"
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+          <p id="balance-error" class="text-sm mt-1 h-4"></p>
+        </div>
+        <!-- Payment Method -->
+        <div>
+          <p class="text-sm font-semibold text-gray-700 mb-2 text-center">Payment Method</p>
+          <div class="grid grid-cols-2 gap-3">
+            <!-- bKash -->
+            <label id="pay-bkash-card" for="pay-bkash"
+              class="relative flex flex-col items-center gap-1.5 border-2 border-gray-200 rounded-xl p-3 cursor-pointer transition-all hover:border-pink-400 hover:bg-pink-50 group has-[:checked]:border-pink-500 has-[:checked]:bg-pink-50 has-[:checked]:shadow-md">
+              <input type="radio" id="pay-bkash" name="payment-method" value="bkash" class="sr-only peer" />
+              <svg viewBox="0 0 60 36" class="w-12 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="36" rx="6" fill="#E2136E" />
+                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="11"
+                  font-family="Arial" font-weight="bold">bKash</text>
+              </svg>
+              <span class="text-xs font-semibold text-pink-600">bKash</span>
+              <span
+                class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-pink-500 text-white items-center justify-center hidden peer-checked:flex">
+                <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </label>
+            <!-- Visa -->
+            <label id="pay-visa-card" for="pay-visa"
+              class="relative flex flex-col items-center gap-1.5 border-2 border-gray-200 rounded-xl p-3 cursor-pointer transition-all hover:border-blue-500 hover:bg-blue-50 group has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50 has-[:checked]:shadow-md">
+              <input type="radio" id="pay-visa" name="payment-method" value="visa" class="sr-only peer" />
+              <svg viewBox="0 0 60 36" class="w-12 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="60" height="36" rx="6" fill="#1A1F71" />
+                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#F7B600" font-size="14"
+                  font-family="Arial" font-weight="900" font-style="italic">VISA</text>
+              </svg>
+              <span class="text-xs font-semibold text-blue-700">Visa</span>
+              <span
+                class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-blue-600 text-white items-center justify-center hidden peer-checked:flex">
+                <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </label>
+          </div>
+        </div>
+        <button id="add-money-btn"
+          class="w-full bg-primary hover:bg-teal-700 text-white font-bold py-2.5 rounded-xl transition-colors text-sm flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          Add Money
+        </button>
+      </div>
+    </div>
+  </div>
 
-<script type="module" src="./js/main.js"></script>
+  <!-- ═══════════════ TOAST ═══════════════ -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-[60] flex flex-col gap-2 items-end"></div>
+
+  <!-- ═══════════════ BACK TO TOP ═══════════════ -->
+  <button id="back-to-top"
+    class="fixed bottom-20 right-5 z-40 w-11 h-11 bg-primary hover:bg-teal-700 text-white rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none hover:scale-110"
+    aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
+  <script type="module" src="./js/main.js"></script>
 </body>
+
 </html>

@@ -93,7 +93,7 @@ function renderProducts() {
   const countEl = document.getElementById('product-count');
   if (!grid) return;
   const list = getFiltered();
-  if (countEl) countEl.textContent = `${list.length} product${list.length !== 1 ? 's' : ''} found`;
+  if (countEl) countEl.textContent = '';
   if (list.length === 0) {
     grid.innerHTML = `<div class="col-span-full text-center py-16 text-gray-400">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto mb-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
