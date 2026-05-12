@@ -9,7 +9,7 @@ const CART_KEY   = 'smartshop_cart';
 const COUPON_KEY = 'smartshop_coupon';
 const DELIVERY_FREE_THRESHOLD = 50;
 const DELIVERY_FEE = 5.00;
-const COUPONS = { 'SMART10': 0.10 };
+const COUPONS = { 'SMART10': 0.10, 'BLACK50': 0.50 };
 
 /* ── Storage ──────────────────────────────────────────── */
 export function getCart()  { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
@@ -100,12 +100,12 @@ export function applyCoupon(code) {
   const rate  = COUPONS[code.toUpperCase().trim()];
   if (rate !== undefined) {
     saveCoupon({ code: code.toUpperCase().trim(), rate });
-    msgEl.textContent = `✓ Coupon "${code.toUpperCase()}" applied — ${rate * 100}% off!`;
-    msgEl.className   = 'text-xs mt-1 text-green-600';
+    msgEl.textContent = '';
+    document.getElementById('coupon-input').value = '';
   } else {
     saveCoupon(null);
     msgEl.textContent = '✗ Invalid coupon code.';
-    msgEl.className   = 'text-xs mt-1 text-red-500';
+    msgEl.className   = 'text-xs text-red-500';
   }
   renderTotals();
 }
@@ -172,12 +172,31 @@ function renderCartItems() {
 }
 
 function renderTotals() {
-  const { subtotal, delivery, discount, total } = calcTotals();
+  const { subtotal, delivery, discount, total, coupon } = calcTotals();
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
   set('cart-subtotal', `$${subtotal.toFixed(2)}`);
   set('cart-delivery',  delivery === 0 ? 'FREE' : `$${delivery.toFixed(2)}`);
   set('cart-discount', discount > 0 ? `-$${discount.toFixed(2)}` : '$0.00');
   set('cart-total',    `$${total.toFixed(2)}`);
+
+  const inputEl  = document.getElementById('coupon-input');
+  const btnEl    = document.getElementById('coupon-apply-btn');
+  const badge    = document.getElementById('applied-coupon-badge');
+  const badgeTxt = document.getElementById('applied-coupon-text');
+  const msgEl    = document.getElementById('coupon-message');
+
+  if (coupon) {
+    if (msgEl) msgEl.classList.add('hidden');
+    if (badge) { badge.classList.remove('hidden'); badge.classList.add('flex'); }
+    if (badgeTxt) badgeTxt.textContent = `${coupon.code} - You got ${coupon.rate * 100}% off`;
+    if (inputEl) { inputEl.disabled = true; inputEl.classList.add('opacity-50'); }
+    if (btnEl) { btnEl.disabled = true; btnEl.classList.add('opacity-50', 'cursor-not-allowed'); }
+  } else {
+    if (msgEl) { msgEl.classList.remove('hidden'); msgEl.textContent = ''; }
+    if (badge) { badge.classList.add('hidden'); badge.classList.remove('flex'); }
+    if (inputEl) { inputEl.disabled = false; inputEl.classList.remove('opacity-50'); inputEl.value = ''; }
+    if (btnEl) { btnEl.disabled = false; btnEl.classList.remove('opacity-50', 'cursor-not-allowed'); }
+  }
 }
 
 /* ── Checkout ─────────────────────────────────────────── */
@@ -217,6 +236,11 @@ export function init() {
   document.getElementById('coupon-apply-btn')?.addEventListener('click', () => {
     const code = document.getElementById('coupon-input')?.value || '';
     applyCoupon(code);
+  });
+
+  document.getElementById('coupon-remove-btn')?.addEventListener('click', () => {
+    saveCoupon(null);
+    renderTotals();
   });
 
   document.getElementById('checkout-btn')?.addEventListener('click', handleCheckout);
